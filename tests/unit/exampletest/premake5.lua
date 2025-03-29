@@ -6,12 +6,10 @@ project "exampletest"
     objdir ("%{wks.location}/bin/int/" .. testsdir .. "/%{prj.name}")
     
     includedirs {
-        "include",
         "src",
     }
 
-    files { 
-        "include/**.hpp",
+    files {
         "src/**.cpp",
         "src/**.hpp",
         "src/**.h",
