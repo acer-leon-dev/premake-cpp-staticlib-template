@@ -9,6 +9,10 @@ project "exampletest"
         "src",
     }
 
+    links {
+        "projectname"
+    }
+
     files {
         "src/**.cpp",
         "src/**.hpp",
