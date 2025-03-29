@@ -1,2 +1,1 @@
-# premake-script-templates
-Template scripts for Premake5.
+# Premake C++ Library Template

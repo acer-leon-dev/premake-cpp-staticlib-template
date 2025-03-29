@@ -1,28 +1,28 @@
-project "ProjectName"
-    kind "ConsoleApp"
+project "projectname"
+    kind "StaticLib"
     language "C++"
     cppdialect "C++23"
-    targetdir (binarydir .. outputdir)
-    objdir (objectdir .. outputdir)
+    targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("%{wks.location}/bin/int/" .. outputdir .. "/%{prj.name}")
     
-    include {
+    includedirs {
         "include",
-        "src"
+        "src",
     }
 
     files { 
         "include/**.hpp",
         "src/**.cpp",
-        "src/**.hpp"
+        "src/**.hpp",
         "src/**.h",
-        "src/**.c"
+        "src/**.c",
     }
 
-    fitler "toolset:gcc or clang"
+    filter "toolset:gcc or clang"
         buildoptions {
             "-Wall",
-            "-Wextra"
-            "-Wno-unused"
+            "-Wextra",
+            "-Wno-unused",
         }
 
     filter "configurations:Debug"
