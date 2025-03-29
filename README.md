@@ -1,1 +1,1 @@
-# Premake C++ Library Template
+# Premake C++ Static Library Template
