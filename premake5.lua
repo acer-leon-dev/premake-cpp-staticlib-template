@@ -1,4 +1,4 @@
-workspace "projectname"
+workspace "Vectorimpl"
    architecture "x64"
    configurations { 
       "Debug",
@@ -9,12 +9,17 @@ workspace "projectname"
    }
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-testsdir =  outputdir .. "/tests"
+testsdir = outputdir .. "/tests"
 
 IncludeDir = {}
-IncludeDir["projectname"] = "%{wks.location}/projectname/include"
+IncludeDir["vectorimpl"] = "%{wks.location}/Vectorimpl/include"
+IncludeDir["googletest"] = "%{wks.location}/tests/vendor/googletest/include"
 
-include "projectname"
+include "Vectorimpl"
+
+group "dependencies"
+   include "tests/vendor/googletest"
+group ""
 
 group "tests"
    include "tests/unit/exampletest"

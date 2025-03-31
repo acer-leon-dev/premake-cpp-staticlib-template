@@ -6,12 +6,16 @@ project "exampletest"
     objdir ("%{wks.location}/bin/int/" .. testsdir .. "/%{prj.name}")
     
     includedirs {
-        "include",
-        "src",
+        IncludeDir["vectorimpl"],
+        IncludeDir["googletest"],
     }
 
-    files { 
-        "include/**.hpp",
+    links {
+        "Vectorimpl",
+        "googletest",
+    }
+
+    files {
         "src/**.cpp",
         "src/**.hpp",
         "src/**.h",
