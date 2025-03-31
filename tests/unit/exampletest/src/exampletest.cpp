@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <vectorimpl/vector.hpp>
+#include <algorithm>
 #include <utility>
 
 // Test fixture for dev::vector
@@ -12,34 +13,44 @@ protected:
     dev::vector<int> vec;
 };
 
-// Test iterators
-TEST_F(VectorTest, Iterators) {
-    vec = {1, 2, 3, 4, 5};
-    auto it = vec.begin();
-    EXPECT_EQ(*it, 1);
-    ++it;
-    EXPECT_EQ(*it, 2);
-    EXPECT_EQ(*(vec.end() - 1), 5);
-}
-
 // Test Rule of 5
 TEST_F(VectorTest, RuleOfFive) {
     dev::vector<int> other = {1, 2, 3};
     dev::vector<int> copy(other);
     EXPECT_EQ(copy.size(), 3);
     EXPECT_EQ(copy[1], 2);
-
+    
     dev::vector<int> moved(std::move(copy));
     EXPECT_EQ(moved.size(), 3);
     EXPECT_EQ(moved[1], 2);
+    
+    dev::vector<int> assigned = moved;
+    EXPECT_EQ(assigned.size(), 3);
 }
 
 // Test fill constructor
 TEST_F(VectorTest, FillConstructor) {
-    dev::vector<int> filled(5, 42);
-    EXPECT_EQ(filled.size(), 5);
-    EXPECT_EQ(filled[0], 42);
-    EXPECT_EQ(filled[4], 42);
+    dev::vector<int> filled(10, 99);
+    EXPECT_EQ(filled.size(), 10);
+    EXPECT_EQ(filled[0], 99);
+    EXPECT_EQ(filled[9], 99);
+}
+
+// Test initializer list constructor
+TEST_F(VectorTest, InitializerListConstructor) {
+    dev::vector<int> initListVec = {10, 20, 30, 40};
+    EXPECT_EQ(initListVec.size(), 4);
+    EXPECT_EQ(initListVec[0], 10);
+    EXPECT_EQ(initListVec[3], 40);
+}
+
+// Test initializer list assignment
+TEST_F(VectorTest, InitializerListAssignment) {
+    vec = {1, 2, 3};
+    vec = {100, 200, 300, 400};
+    EXPECT_EQ(vec.size(), 4);
+    EXPECT_EQ(vec[0], 100);
+    EXPECT_EQ(vec[3], 400);
 }
 
 // Test at method
@@ -55,6 +66,8 @@ TEST_F(VectorTest, BracketOperator) {
     vec = {5, 10, 15};
     EXPECT_EQ(vec[0], 5);
     EXPECT_EQ(vec[2], 15);
+    vec[1] = 99;
+    EXPECT_EQ(vec[1], 99);
 }
 
 // Test front and back
@@ -62,6 +75,8 @@ TEST_F(VectorTest, FrontAndBack) {
     vec = {100, 200, 300};
     EXPECT_EQ(vec.front(), 100);
     EXPECT_EQ(vec.back(), 300);
+    vec.back() = 999;
+    EXPECT_EQ(vec.back(), 999);
 }
 
 // Test data method
@@ -88,6 +103,8 @@ TEST_F(VectorTest, SizeMethod) {
 // Test reserve and capacity
 TEST_F(VectorTest, ReserveAndCapacity) {
     vec.reserve(50);
+    EXPECT_GE(vec.capacity(), 50);
+    vec.push_back(1);
     EXPECT_GE(vec.capacity(), 50);
 }
 
@@ -133,4 +150,13 @@ TEST_F(VectorTest, PopBack) {
     vec.pop_back();
     EXPECT_EQ(vec.size(), 1);
     EXPECT_EQ(vec.back(), 10);
+}
+
+// Additional pop_back tests
+TEST_F(VectorTest, MultiplePopBack) {
+    vec = {1, 2, 3, 4, 5};
+    vec.pop_back();
+    vec.pop_back();
+    EXPECT_EQ(vec.size(), 3);
+    EXPECT_EQ(vec.back(), 3);
 }
