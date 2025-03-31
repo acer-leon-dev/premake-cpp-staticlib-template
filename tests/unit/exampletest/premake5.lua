@@ -15,6 +15,11 @@ project "exampletest"
         "googletest",
     }
 
+    links {
+        "projectname"
+    }
+
+    files {
     files {
         "src/**.cpp",
         "src/**.hpp",
